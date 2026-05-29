@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Torneo Bola 8 - Resultados</title>
+<link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+
+<h1>Torneo de Bola 8</h1>
+<h2>Resultados y Tabla de Posiciones</h2>
+
+<div id="error" style="color: red; text-align:center;"></div>
+
+<div id="grupos"></div>
+
+<h2>Fase Eliminatoria</h2>
+
+<div id="cuartos" class="fase"></div>
+<div id="semifinal" class="fase"></div>
+<div id="tercer" class="fase"></div>
+<div id="final" class="fase"></div>
+
+<div id="campeon" class="campeon"></div>
+
+<script>
+async function cargarDatos() {
+    try {
+        const resp = await fetch("resultados.json");
+
+        if (!resp.ok) {
+            document.getElementById("error").innerHTML =
+                "No se pudo cargar resultados.json";
+            return;
+        }
+
+        const data = await resp.json();
+
+        mostrarGrupos(data.grupos);
+        mostrarFase("cuartos", data.cuartos);
+        mostrarFase("semifinal", data.semifinal);
+        mostrarFase("tercer", data.tercer_lugar);
+        mostrarFase("final", data.final);
+        mostrarCampeon(data.campeon);
+
+    } catch (e) {
+        document.getElementById("error").innerHTML =
+            "Error cargando datos: " + e;
+    }
+}
+
+function mostrarGrupos(grupos) {
+    const cont = document.getElementById("grupos");
+    cont.innerHTML = "";
+
+    grupos.forEach(g => {
+        let html = `
+            <div class="grupo">
+                <h2>Grupo ${g.nombre}</h2>
+                <table>
+                    <tr>
+                        <th>Jugador</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>PF</th>
+                        <th>PC</th>
+                        <th>PTS</th>
+                        <th>PD</th>
+                    </tr>
+        `;
+
+        g.tabla.forEach(t => {
+            html += `
+                <tr>
+                    <td>${t.jugador}</td>
+                    <td>${t.pj}</td>
+                    <td>${t.pg}</td>
+                    <td>${t.pe}</td>
+                    <td>${t.pp}</td>
+                    <td>${t.pf}</td>
+                    <td>${t.pc}</td>
+                    <td>${t.pts}</td>
+                    <td>${t.pd}</td>
+                </tr>
+            `;
+        });
+
+        html += `</table></div>`;
+        cont.innerHTML += html;
+    });
+}
+
+function mostrarFase(id, partidos) {
+    const cont = document.getElementById(id);
+    cont.innerHTML = `<h2>${id.toUpperCase()}</h2>`;
+
+    partidos.forEach(p => {
+        cont.innerHTML += `
+            <div class="partido">
+                ${p.j1} <strong>${p.s1}</strong> vs 
+                <strong>${p.s2}</strong> ${p.j2}
+            </div>
+        `;
+    });
+}
+
+function mostrarCampeon(nombre) {
+    document.getElementById("campeon").innerHTML =
+        `🏆 Campeón: <strong>${nombre}</strong>`;
+}
+
+cargarDatos();
+</script>
+
+</body>
+</html>
