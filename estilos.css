@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0a0f2c;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #4db8ff;
+}
+
+.grupo, .fase {
+    background: #11183d;
+    padding: 15px;
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #4db8ff;
+    text-align: center;
+}
+
+.partido {
+    padding: 10px;
+    margin: 10px 0;
+    background: #1b255c;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.campeon {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 40px;
+    color: gold;
+}
